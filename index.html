@@ -225,12 +225,12 @@
                 <div id="utmadmin" class="utm_width">
                   <div id="virusContianer" class="utm_box">
                     <h3 class="utmSub_heading">Antivirus</h3>
-                    <div id="virusContToggle" class="toggle_butt"></div>
+                    <div id="virusContToggle" class="toggle_butt span2_utmfilter"></div>
                   </div>
                   <div class="clr"></div>
                   <div id="filterContainer" class="utm_box">
                     <h3 class="utmSub_heading">Content Filter</h3>
-                    <div id="ContFltrToggle"></div>
+                    <div id="ContFltrToggle" class="span2_utmfilter"></div>
                   </div>
                   <div id="CatContainer" style="display:none" class="box_rounded">
                     <form action="#" id="form" name="form">
@@ -361,7 +361,7 @@
      <!--================================================== S I T E S C O N T E N T E N D ==================================================     -->
         <div id="msgModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
           <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><img src="img/but_deletebox.png"></button>
             <h3 id="msgyModalLabel">Feedback</h3>
           </div>
           <div class="msg-modal-body">
@@ -369,12 +369,11 @@
           </div>
           <div class="modal-footer">
             <div class="waiting hide">
-              <button class="btn" data-dismiss="modal" aria-hidden="true">OK</button>
+              <button class="button" data-dismiss="modal" aria-hidden="true">OK</button>
             </div>
-            <div class="delete hide">
-              <button class="btn" data-dismiss="" aria-hidden="true">YES</button>
-              |
-              <button class="btn" data-dismiss="modal" aria-hidden="true">NO</button>
+            <div class="deleteinf hide">
+              <button class="button" data-dismiss="" aria-hidden="true">YES</button>
+              <button class="button" data-dismiss="modal" aria-hidden="true">NO</button>
             </div>
           </div>
           <!-- Sites Page Inner Content End================================================== -->
@@ -746,7 +745,14 @@
     <div class="box margin-sides">
       <div class="row-fluid">
         <div class="span8 width"><b>{name} ({id})</b></div>
-
+         <div id="bottom_buttons">
+    <center>
+      <div class="but_cat">
+        <a href="#" class="button cancelEditInterface" title="Cancel Rule" >Cancel</a>
+        <a href="#" class="button save saveEditInterface" title="Save Interface">Save Interface</a>
+      </div>
+    </center>
+  </div>  
       </div>
     
     <form action="#" id="form" name="form" class="form">  

@@ -217,7 +217,7 @@ $(document).ready(function() {
         fnDeleteDevDetails: function(e){
         	e.preventDefault();
         	//double popup for clarification
-        	fnShowAlert("Are you sure you want to delete this device","delete","device");
+        	fnShowAlert("Are you sure you want to delete this device","deleteinf","device");
         	
         },
         
