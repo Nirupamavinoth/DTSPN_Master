@@ -292,7 +292,6 @@ var blackListView = Backbone.View.extend({
 												 this.collection.bind('add', this.appendItem);
 												 this.collection.bind('remove', this.deleteItem);
 												 
-												
 											},
 											events : {
 												"click button.block": "addItem",
