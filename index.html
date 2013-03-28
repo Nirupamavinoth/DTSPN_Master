@@ -16,6 +16,7 @@
 <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
 <link rel="apple-touch-icon" sizes="72x72" href="img/apple-touch-icon-72x72.png">
 <link rel="apple-touch-icon" sizes="114x114" href="img/apple-touch-icon-114x114.png">
+
 </head>
 <!-- Head section -->
 <body data-offset="40" data-target=".subnav" data-spy="scroll" data-twttr-rendered="true">
@@ -176,15 +177,15 @@
         </div>
         <!--================================================ Manage Tabs================================================== -->
         <div class="tab-pane border_tabs" id="tabs1-pane2">   
-      <div class="tabbable tabs-left">
+      <div class="tabbable tabs-left" id="tabs_id">
       <ul class="nav nav-tabs nav-tabs-inner nav-pills-manage">
-      <li class="active"><a href="#pane1" data-toggle="tab">Server Keys</a></li>
-      <li><a href="#pane2" data-toggle="tab">View Connections</a></li>
-      <li><a href="#pane3" data-toggle="tab">UTM</a></li>
+      <li class="active"><a href="#viewserver">Server Keys</a></li>
+      <li><a href="#viewconn">View Connections</a></li>
+      <li><a href="#utm">UTM</a></li>
       </ul>
             <!--================================================ Manage Tabs - Content================================================== -->
             <div class="tab-content r_content">
-               <div id="pane1" class="tab-pane active">
+               <div id="viewserver" class="tab-pane active">
                 <div id="ManageServerKeys">
                   <h3 data-localize="manage.serverkeys.title">Manage Server Keys</h3>
                   <div class="alert alert-block alert-info fade in">
@@ -204,7 +205,7 @@
                 </div>
               </div>
               <!--================================================ Manage Tabs - View Connections Content================================================== -->
-              <div id="pane2" class="tab-pane">
+              <div id="viewconn" class="tab-pane">
                 <h3 data-localize="manage.connections.heading">Active Connections</h3>
                 <table id="connection-list" class="table table-striped table-bordered table-condensed">
                   <thead>
@@ -221,7 +222,7 @@
                 </table>
               </div>
               <!--================================================ Manage Tabs - UTM Content================================================== -->
-              <div id="pane3" class="tab-pane">
+              <div id="utm" class="tab-pane">
                 <div id="utmadmin" class="utm_width">
                   <div id="virusContianer" class="utm_box">
                     <h3 class="utmSub_heading">Antivirus</h3>
@@ -305,7 +306,7 @@
     <div class="span2">
       <!--Main menu on the left side-->
       <div class="sidebar-nav hide">
-        <ul class="nav nav-tabs nav-tabs-inner">
+        <ul class="nav nav-tabs nav-tabs-inner tabsleft">
           <li><a href="#deviceInfo" class="active_tab">Device Information</a></li>
           <li><a href="#firewall">Firewall</a></li>
           <li><a href="#network">Network</a></li>
@@ -316,7 +317,7 @@
       <!--View List of devices-->
       <div class="section" id="listofdevices">
         <h4 class="active">List of Devices</h4>
-        <div class="sub_heading">Click on each device to view and modify its information, firewall rules, and network interfaces</div>
+        <div class="sub_heading" id="devicelist">Click on each device to view and modify its information, firewall rules, and network interfaces</div>
         <table style="border-collapse:separate; border-spacing: 0" class="table" id="activateddevicelist">
           <thead class="dev_table_header">
             <tr>
@@ -338,19 +339,19 @@
       </div>
       <!--====ACTIVATE A DEVICE===-->
       <div class="span10_content r_content">
-        <div class="section hidden" id="activateadevice"> <span class="breadcrumb"><a href="">Devices Information</a> / <b class="active"> Activate a Device</b> </span> 
+        <div class="section hidden" id="activateadevice"> <span class="breadcrumb"><a href="#deviceInfomain">Devices Information</a> / <b class="active"> Activate a Device</b> </span> 
           <hr>
         </div>
         <!--====VIEW A DEVICE'S INOFRMATION===-->
         <div class="section hidden box_inner" id="eachDeviceInformation"> </div>
         <!--====FIREWALL===-->
-        <div class="section box_inner hidden" id="viewFirewall"> <span class="breadcrumb"><a href="">Devices Information</a> / <b class="active"> Firewall Rules (<span class="deviceNm"></span>)</b> </span> 
+        <div class="section box_inner hidden" id="viewFirewall"> <span class="breadcrumb"><a href="#deviceInfomain">Devices Information</a> / <b class="active"> Firewall Rules (<span class="deviceNm"></span>)</b> </span> 
            <hr>
           <div id="firewallrules"></div>
         </div>
         <!--====Network===-->
         <div class="section hidden" id="viewNetwork">
-          <span class="breadcrumb"><a href="">Devices Information</a>  / <b class="active"> Network Interfaces (<span class="deviceNm"></span></b>) </span>
+          <span class="breadcrumb"><a href="#deviceInfomain" >Devices Information</a>  / <b class="active"> Network Interfaces (<span class="deviceNm"></span></b>) </span>
          <hr>
                  
         <div id="networkinterfaces"></div>
@@ -416,7 +417,7 @@
 </script>
 <!--====VIEW A DEVICE'S INFORMATION===-->
 <script type="text/template" id="deviceInfoViewTemplate">
-  <span class="breadcrumb"><a href="">Devices Information</a> / <b class="active"> Device Details ({name})</b> </span>
+  <span class="breadcrumb"><a href="#deviceInfomain">Devices Information</a> / <b class="active"> Device Details ({name})</b> </span>
    <hr>
 <div class="box_view">
     <div class="row-fluid"><div class="span2 span2_device"><b>Device Name:</b></div><div class="span2">{name}</div></div>
@@ -935,6 +936,8 @@
   <!--main box-->   
 </form> 
 </script>
+
+
 <!--json content end -->
 <!-- ==============================================
 JavaScript below!                              -->

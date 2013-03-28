@@ -151,6 +151,10 @@ $(document).ready(function() {
        
     });
     
+function fnDisplaydevinf(){
+	alert("hi");
+	window.location=currentUrl.substring(0);
+}
      //=======================E A C H  D E V I C E  I N F O R M A T I O N====================    
    	//Get the each device information
    	//Model
@@ -336,6 +340,7 @@ $(document).ready(function() {
         	this.render();
         },
         
+		
         saveFirewallRule:function(e){
         	e.preventDefault();
         	var data = Backbone.Syphon.serialize(this);
@@ -1089,6 +1094,8 @@ $(document).ready(function() {
             "": "fnGetListOfDev",
             "activate": "fnActivate",
             "deviceInfo": "fnDeviceInfo",
+			"deviceInfomain" :"fnDeviceInfomain",
+			"tabs1-pane3" :"fnmainindex",
             "firewall":"fnGetFirewall",
             "network":"fnGetNetwork"
         },
@@ -1106,8 +1113,16 @@ $(document).ready(function() {
 			});
 			   
         },
-        //Activate a device
-        fnActivate: function(){
+       
+        fnDeviceInfomain: function(){
+        	fnUpdateSectionDisplay("#listofdevices");
+			$(".tabsleft").addClass("hidden");
+        },
+		
+		
+		
+		//Activate a device
+		fnActivate: function(){
         	fnUpdateSectionDisplay("#activateadevice");
         	this.fnGetListOfDev();
         },
@@ -1123,6 +1138,7 @@ $(document).ready(function() {
             		});
             		$("#eachDeviceInformation").html("")
           			$("#eachDeviceInformation").append(that.eachDevInfoView.render().el);
+					$(".nav-tabs-inner").removeClass('hidden');	
 				},
 				error:function(data){
 					alert("Error loading json")

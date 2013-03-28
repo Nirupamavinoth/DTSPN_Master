@@ -354,8 +354,8 @@ var accountRouter = Backbone.Router.extend({
         routes: {
             "": "fnInitAntivirus",
  	    	"utm":"fnGetUTM",
- 	    	"Device":"fnGetViewConn",
- 	    	"serverkeys":"fnGetServerKeys"
+ 	    	"viewconn":"fnGetViewConn",
+ 	    	"viewserver":"fnGetServerKeys"
         },
 
         fnInitList: function (type) {
@@ -375,15 +375,19 @@ var accountRouter = Backbone.Router.extend({
 		//UTM
 
 		fnGetUTM: function(){
-        	fnUpdateUTMDisplay("#viewUTM");	
+			$('#utm').tab('show');
+	        $('.nav-tabs a[href=#utm]').tab('show').css('cursor', 'pointer');
+	        
          },
 
          fnGetViewConn: function(){
-        	fnUpdateUTMDisplay("#viewServerKeys");	
+        		$('#viewconn').tab('show');
+	        $('.nav-tabs a[href=#viewconn]').tab('show').css('cursor', 'pointer');
          },
 
   		fnGetServerKeys: function(){
-        	fnUpdateUTMDisplay("#viewCONN");	
+        	$('#viewserver').tab('show');
+	        $('.nav-tabs a[href=#viewserver]').tab('show').css('cursor', 'pointer');
          },
          
 
@@ -460,7 +464,8 @@ var accountRouter = Backbone.Router.extend({
 		
 		
     });
-	compileTemplates();
+    
+   	compileTemplates();
 		var app = new accountRouter();
 		Backbone.history.stop();
 		Backbone.history.start();
