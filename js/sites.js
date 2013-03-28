@@ -151,10 +151,7 @@ $(document).ready(function() {
        
     });
     
-function fnDisplaydevinf(){
-	alert("hi");
-	window.location=currentUrl.substring(0);
-}
+
      //=======================E A C H  D E V I C E  I N F O R M A T I O N====================    
    	//Get the each device information
    	//Model
