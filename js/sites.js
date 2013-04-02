@@ -151,7 +151,10 @@ $(document).ready(function() {
        
     });
     
-
+function fnDisplaydevinf(){
+	alert("hi");
+	window.location=currentUrl.substring(0);
+}
      //=======================E A C H  D E V I C E  I N F O R M A T I O N====================    
    	//Get the each device information
    	//Model
@@ -216,10 +219,11 @@ $(document).ready(function() {
         },
         
         fnDeleteDevDetails: function(e){
-        	e.preventDefault();
+        	var name = this.model.get('name');
+			var fnDeleteDevDetails = this.model;
+			var that = this;
         	//double popup for clarification
-        	fnShowAlert("Are you sure you want to delete this device","deleteinf","device");
-        	
+        	fnShowAlert(" Are you sure you want to delete <br>" + "<b>" + name + "</b>" + "?" , "deleteinf","device");
         },
         
         fnCompleteDeviceDelete: function(e){
@@ -353,11 +357,18 @@ $(document).ready(function() {
 		},
 		
 		deleteFirewallRule:function(e){
-			e.preventDefault();
-			this.remove();
-        	this.model.destroy();
-		},
-		
+			var name = this.model.get('name');
+			var deleteFirewallRule = this.model;
+			var that = this;
+			fnShowAlert(" Are you sure you want to delete this rule <br>" + "<b>" + name + "</b>" + "?", "deletefirewall");
+					$("#no").show();
+					$("#yes").html("YES");
+					$("#yes").click(function(){
+							that.remove();
+							RuleView.deleteFirewallRule(this.model);
+				})
+			},
+			
 		fnCancel:function(e){
 			e.preventDefault();
 			if(this.model.get('id')){
@@ -712,7 +723,11 @@ $(document).ready(function() {
         	e.preventDefault();
         	//add a new rule - show the rule edit template
     		this.ruleListRender.addNewRule(this.viewRef); 
-        }        
+        },   
+        
+        deleteFirewallRule: function(deleteFirewallRule){
+		this.model.remove(deleteFirewallRule);
+	 },        
         
 	});
 	//define master view

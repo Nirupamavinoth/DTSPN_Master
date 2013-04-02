@@ -273,11 +273,10 @@
                 <script id="BlackListTemplate" type="text/html">
                 <div class="l_float width_blklist_url">
         				<a href="{url}" id="{id}">{url}</a>
-      </div>
-      <div class="l_float ">
-      <img src="img/but_deletebox.png" height="36px" width="38px" alt="Delete" class="delete" />
-        
-</div>
+     			</div>
+			      <div class="l_float ">
+			      <img src="img/but_deletebox.png" height="36px" width="38px" alt="Delete" class="delete" />
+				</div>
 				</script>
                 <script id="AntivirusTemp" type="text/html">
 				<span class="span2"><label>Turn Antivirus</label></span>
@@ -376,6 +375,10 @@
               <button class="button" data-dismiss="" aria-hidden="true">YES</button>
               <button class="button" data-dismiss="modal" aria-hidden="true">NO</button>
             </div>
+             <div class="deletefirewall hide">
+              <button class="btn confirm" id="yes" data-dismiss="modal" aria-hidden="true">YES</button>
+              <button class="btn confirm" id="no" data-dismiss="modal" aria-hidden="true">NO</button>
+            </div>
           </div>
           <!-- Sites Page Inner Content End================================================== -->
         </div>
@@ -400,7 +403,7 @@
   <td class="span2">{type}</td>
 </script>
 <script type="text/template" id="pendingActivationTemplate">
-  <td><a href="#activate">{type}</a></td>
+  <td><a href="#activate" class="device_txt">{type}</a></td>
 </script>
 <!--====ACTIVATE A DEVICE===-->
 <script type="text/template" id="activateAdeviceTemplate">  
@@ -630,7 +633,7 @@
           <div class="span2">{#gateway}Gateway: {gateway}{:else}{/gateway}</div>
           <div class="span2">{#broadcast}Broadcast: {broadcast}{:else}{/broadcast}</div>        
         {/config}
-        <div class="span2">
+        <div class="span2_edit">
         <a href="#" class="button edit editInterface" title="Edit Rule">Edit Rule</a></div>
       </div>
     </div>
