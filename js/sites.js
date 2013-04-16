@@ -27,6 +27,9 @@ $(document).ready(function() {
         },        
        
         render: function (ref) {
+        	
+        	//ref.parentRefHtml.find(".eachrule").remove();
+        	
             var _self = this;
            	var data = this.model.toJSON();
             this.compiled = dust.compile(this.template,this.eachDeviceListTempl);            
@@ -122,6 +125,7 @@ $(document).ready(function() {
 
        render: function () {
             var that = this;
+            $("#activateddevicelist").find(".eachdevlistact").remove();
             _.each(this.collection.models, function (item) {
                 that.renderDeviceList(item);
             }, this);
@@ -142,6 +146,8 @@ $(document).ready(function() {
           			$("#pendactivatedevlist").append(this.eachDevView.render().el);
           		}
         	}else{
+        		alert('eachdevlistact');
+        		
         		this.eachDevView = new EachDevInListActView({
      	           model: item
             	});
@@ -365,7 +371,7 @@ function fnDisplaydevinf(){
 					$("#yes").html("YES");
 					$("#yes").click(function(){
 							that.remove();
-							RuleView.deleteFirewallRule(this.model);
+							that.parentref.deleteFirewallRule(that.model,that.parentref);
 				})
 			},
 			
@@ -632,6 +638,7 @@ function fnDisplaydevinf(){
         ruleListRender: null,
         htmlref: null,
         viewRef:null,
+        idGen:1,
         
         events:{
         	"click a.addRule": "addFirewallRule",
@@ -690,7 +697,9 @@ function fnDisplaydevinf(){
         	var rules_arr=new Array()
         	if(str=="add"){
         		//This is for offline
-        		data.id="123"
+        		data.id=this.idGen+1;
+        		this.idGen=data.id;
+        		
   		       	_.each(rules, function (item) {
 	        			rules_arr.push(item)		
 	            }, this);
@@ -726,7 +735,17 @@ function fnDisplaydevinf(){
         },   
         
         deleteFirewallRule: function(deleteFirewallRule){
-		this.model.remove(deleteFirewallRule);
+		  //this.model.remove(deleteFirewallRule);
+		   	 var removedRule = deleteFirewallRule.attributes;
+			 var rules = this.model.get("rules");
+			
+		   _.each(rules, function (rule) {
+		   	    if (_.isEqual(rule, removedRule)) {
+                    rules.splice(_.indexOf(rules, rule), 1);
+                }
+            });
+		  
+			this.render();
 	 },        
         
 	});
