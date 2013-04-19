@@ -7,8 +7,23 @@ $(document).ready(function() {
 	});
 	//Define Each Device for the List Model 
 	var DeviceListModel = Backbone.Model.extend({
-		url:"http://www.google.com"
+		url:"http://www.google.com",
 		//url :function(){return "/Orchestration/account/"+accountID+"/devices" + (this.get("id") == null ? "" : "/" + this.get("id"))}
+		
+	validation: {
+    	serial: {
+      		required: true,
+      		msg: 'Please enter a serial number'
+    	},
+    	location: {
+      		required: true
+    	} ,
+		name : {
+      		required: true,
+      		msg: 'please enter valid name'
+    	} ,
+    	 
+    	}
     });    
     //Collection of devices
     var DeviceList = Backbone.Collection.extend({
@@ -69,7 +84,9 @@ $(document).ready(function() {
         },
         
         storeDeviceType: function(ref){
+        	
         	activateDeviceType = this.model.get("type");
+        	//alert('storeDeviceType-->'+activateDeviceType);
         }
                 
 	});
@@ -80,13 +97,15 @@ $(document).ready(function() {
         className: "actAdev",
         template: $("#activateAdeviceTemplate").html(),
         actTmpl: "activateadeviceTempl",     
+        parentRef: "",
         
          events:{
-        	"click a.activateDevice": "activateDevice",
+        	"click .activateDevice": "activateDevice",
         	"click a.cancel": "fnCancel",
         },    
         
-        render: function () {
+        render: function (ref) {
+        	this.parentRef = ref;
             var _self = this;
            	var data = this.model.toJSON();
            	this.compiled = dust.compile(this.template,this.actTmpl);            
@@ -94,28 +113,38 @@ $(document).ready(function() {
  			dust.render(this.actTmpl,data,function(err,out){
            		_self.$el.html(out);
        		});
+       		Backbone.Validation.bind(this);
        		 return this; 	
         },
         
         activateDevice:function(e){
+        	
         	e.preventDefault();
         	var that = this;
         	var data = Backbone.Syphon.serialize(this);
 			this.model.set(data);
+			console.log(data);
+			//alert('activateDevicea');
+			activateDeviceType='';
+			
+			
 			this.model.save(null, {
-				success:function(){
-					alert("done");
-					location.href = ""								            		
-				},
-				error:function(m,xhr,o){
-					location.href = ""
-					alert("error")
-				}
-			})
+							success:function(){
+								alert("done");
+								//location.href = ""								            		
+							},
+							error:function(m,xhr,o){
+								//location.href = ""
+								alert("error")
+							}
+						})
+			sitesRouter.navigate("deviceInfomain",true);
         },
         
         fnCancel: function(e){
         	e.preventDefault();
+			sitesRouter.navigate("deviceInfomain",true);
+			
         }       
 	});
 	
@@ -124,8 +153,12 @@ $(document).ready(function() {
     	eachDevView: null,
 
        render: function () {
+       //	alert('render');
             var that = this;
             $("#activateddevicelist").find(".eachdevlistact").remove();
+            $("#pendactivatedevlist").find(".eachdevlistpendact").remove();
+            $("#activateadevice").find(".actAdev").remove();
+            
             _.each(this.collection.models, function (item) {
                 that.renderDeviceList(item);
             }, this);
@@ -134,26 +167,36 @@ $(document).ready(function() {
         renderDeviceList: function (item) {
         	if(item.toJSON().serial==null){
         		//check if activate a device
+        		//alert('activateDeviceType -- >'+activateDeviceType);
         		if(activateDeviceType==item.toJSON().type){
+        			
         			this.eachDevView = new ActivateADeviceView({
      	           		model: item
             		});
-          			$("#activateadevice").append(this.eachDevView.render().el);
+          			$("#activateadevice").append(this.eachDevView.render(this).el);
         		}else{
-        			this.eachDevView = new EachDevInListPendActView({
+        			//alert('pendactivatedevlist');
+        			this.eachDevPendView = new EachDevInListPendActView({
      	           		model: item
             		});
-          			$("#pendactivatedevlist").append(this.eachDevView.render().el);
+          			$("#pendactivatedevlist").append(this.eachDevPendView.render(this).el);
           		}
         	}else{
-        		alert('eachdevlistact');
+        		//alert('eachdevlistact-->'+item.toJSON().serial);
         		
         		this.eachDevView = new EachDevInListActView({
      	           model: item
             	});
           		$("#activateddevicelist").append(this.eachDevView.render().el);
           }
-        }        
+        },       
+        
+        addActivatedDevice: function(data)
+        {
+        	//alert('addActivatedDevice');
+        	
+        	
+        }
        
     });
     
@@ -167,6 +210,9 @@ function fnDisplaydevinf(){
 	var getADeviceInfo = Backbone.Model.extend({
 		urlRoot : "data/deviceInfo.json"
 		//url :function(){return "/Orchestration/account/"+accountID+"/devices" + (this.get("id") == null ? "" : "/" + this.get("id"))}
+		
+		
+		
 	});
 	//View
 	var DeviceInfoView = Backbone.View.extend({
@@ -186,6 +232,8 @@ function fnDisplaydevinf(){
         
         initialize: function(){
 			this.on('completeDeviceDelete', this.fnCompleteDeviceDelete, this);
+			
+        	
 		},  
        
         render: function (ref) {
@@ -197,6 +245,7 @@ function fnDisplaydevinf(){
             dust.render(this.eachDeviceViewTempl,data,function(err,out){
             	_self.$el.html(out);
             });
+           //Backbone.Validation.bind(this);
             return this;
         },
         
@@ -208,18 +257,22 @@ function fnDisplaydevinf(){
         
         fnSaveDeviceEdit: function(e){
         	e.preventDefault();
+        	//alert('fnSaveDeviceEdit');
         	var that = this;
         	var data = Backbone.Syphon.serialize(this);
 			this.model.set(data);
+			console.log(data);
 			//save to server
+			/*
 			this.model.save(null, {
-				success:function(){
-					alert("done");							            		
-				},
-				error:function(m,xhr,o){
-					alert("error")
-				}
-			})	
+							success:function(){
+								alert("done");							            		
+							},
+							error:function(m,xhr,o){
+								alert("error")
+							}
+						})	*/
+			
 			this.currentTemplate = this.template;
 			this.render();
         },
@@ -230,6 +283,18 @@ function fnDisplaydevinf(){
 			var that = this;
         	//double popup for clarification
         	fnShowAlert(" Are you sure you want to delete <br>" + "<b>" + name + "</b>" + "?" , "deleteinf","device");
+        	$("#no").show();
+					$("#yes").show();
+					$("#yes").html("YES");
+					$("#yes").click(function(){
+							that.model.destroy();
+							
+							//that.parentref.deleteFirewallRule(that.model,that.parentref);
+				})
+				
+				
+			//$("#no").hide();
+			//$("#yes").hide();	
         },
         
         fnCompleteDeviceDelete: function(e){
@@ -366,13 +431,17 @@ function fnDisplaydevinf(){
 			var name = this.model.get('name');
 			var deleteFirewallRule = this.model;
 			var that = this;
-			fnShowAlert(" Are you sure you want to delete this rule <br>" + "<b>" + name + "</b>" + "?", "deletefirewall");
+			fnShowAlert(" Are you sure you want to delete this rule <br>" + "<b>" + name + "</b>" + "?", "deleteinf");
 					$("#no").show();
-					$("#yes").html("YES");
+					$("#yes").show();
 					$("#yes").click(function(){
 							that.remove();
 							that.parentref.deleteFirewallRule(that.model,that.parentref);
 				})
+				/*
+				$(".deletefirewall #no").hide();
+								$(".deletefirewall  #yes").hide();*/
+				
 			},
 			
 		fnCancel:function(e){
@@ -1146,8 +1215,11 @@ function fnDisplaydevinf(){
         },
        
         fnDeviceInfomain: function(){
+        	
         	fnUpdateSectionDisplay("#listofdevices");
-			$(".tabsleft").addClass("hidden");
+        	activateDeviceType='';
+        	listOfDevicesRender.render();
+        	$(".tabsleft").addClass("hidden");
         },
 		
 		
@@ -1155,7 +1227,8 @@ function fnDisplaydevinf(){
 		//Activate a device
 		fnActivate: function(){
         	fnUpdateSectionDisplay("#activateadevice");
-        	this.fnGetListOfDev();
+        	listOfDevicesRender.render();
+        	//this.fnGetListOfDev();
         },
         //Display a devices's information
         fnDeviceInfo: function(){
@@ -1163,7 +1236,8 @@ function fnDisplaydevinf(){
 			fnUpdateSectionDisplay("#eachDeviceInformation");
         	this.router_devinfo=new getADeviceInfo();
 			this.router_devinfo.fetch({
-				success:function(model, response){										
+				success:function(model, response){	
+														
 					that.eachDevInfoView = new DeviceInfoView({
      		           model: model
             		});
